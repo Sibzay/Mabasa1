@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "276270791184",
+    "project_id": "mabasa-job-app",
+    "storage_bucket": "mabasa-job-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:276270791184:android:37951e3d9844810d5e6895",
+        "android_client_info": {
+          "package_name": "com.zinosoftware.mabasa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "276270791184-dfjdl07ukcdcaqmf5rehqck2ontqlkdh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zinosoftware.mabasa",
+            "certificate_hash": "a496ea040e6338f983b02912763b8a3806692bc5"
+          }
+        },
+        {
+          "client_id": "276270791184-ab4mrm8ii17cq58egtid0mqv48b5ki99.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkLVZU7Ib2ceB9lkvZ1eiuQK9GsnQiSiE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "276270791184-ab4mrm8ii17cq58egtid0mqv48b5ki99.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
