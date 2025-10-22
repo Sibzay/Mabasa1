@@ -186,6 +186,11 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
         foregroundColor: Colors.white,
         actions: [
           IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () => _loadJobs(reset: true),
+            tooltip: 'Refresh jobs',
+          ),
+          IconButton(
             icon: const Icon(Icons.filter_list),
             onPressed: _openFilterModal,
           ),

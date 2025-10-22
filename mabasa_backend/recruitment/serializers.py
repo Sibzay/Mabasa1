@@ -5,7 +5,12 @@ from .models import Job, Application, Interview, CandidateProfile, Notification
 class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
-        fields = ['id', 'title', 'location', 'description', 'category', 'requirements', 'salary_range', 'created_at']
+        fields = [
+            'id', 'title', 'location', 'description', 'category', 'requirements', 'salary_range',
+            'required_certifications', 'education_level', 'salary_amount', 'salary_currency',
+            'duties_responsibilities', 'expected_hours', 'work_type', 'work_days', 'created_at',
+            'is_open', 'closing_date'
+        ]
 
 
 class CandidateProfileSerializer(serializers.ModelSerializer):
@@ -14,7 +19,8 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CandidateProfile
-        fields = ['name', 'email', 'title', 'location', 'summary', 'skills']
+        fields = ['name', 'email', 'title', 'location', 'summary', 'skills', 'resume_url', 
+                 'education', 'experience', 'years_experience']
 
     def get_name(self, obj):
         return obj.user.get_full_name() or obj.user.get_username()
@@ -25,10 +31,11 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
 
 class ApplicationSerializer(serializers.ModelSerializer):
     candidate = CandidateProfileSerializer(source='candidate.candidate_profile')
+    job = JobSerializer()
 
     class Meta:
         model = Application
-        fields = ['id', 'status', 'created_at', 'feedback_notes', 'candidate']
+        fields = ['id', 'status', 'created_at', 'feedback_notes', 'candidate', 'job']
 
 
 class InterviewSerializer(serializers.ModelSerializer):

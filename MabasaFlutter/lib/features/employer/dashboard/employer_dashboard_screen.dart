@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/services/api_client.dart';
 import '../candidates/candidate_swipe_screen.dart';
 import '../jobs/manage_jobs_screen.dart';
@@ -57,6 +58,13 @@ class _EmployerDashboardScreenState
     return Scaffold(
       appBar: AppBar(
         title: const Text('Employer'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => context.go('/settings'),
+            tooltip: 'Settings',
+          ),
+        ],
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,

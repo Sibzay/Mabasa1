@@ -308,12 +308,33 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          _formatDate(notification['created_at']),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[500],
-                          ),
+                        Row(
+                          children: [
+                            Icon(Icons.schedule,
+                                size: 14, color: Colors.grey[500]),
+                            const SizedBox(width: 4),
+                            Text(
+                              _formatDate(notification['created_at']),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey[500],
+                              ),
+                            ),
+                            if (type == 'interview' || type == 'accepted') ...[
+                              const SizedBox(width: 16),
+                              Icon(Icons.event,
+                                  size: 14, color: Colors.grey[500]),
+                              const SizedBox(width: 4),
+                              Text(
+                                'Interview Scheduled',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey[500],
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ],
                         ),
                       ],
                     ),

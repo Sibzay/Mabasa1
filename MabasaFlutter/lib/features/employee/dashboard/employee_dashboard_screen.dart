@@ -5,11 +5,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/services/api_client.dart';
 import 'profile_setup_screen.dart';
-import 'job_swipe_screen.dart';
-import 'applications_screen.dart';
-import 'notifications_screen.dart';
+import '../../jobs/presentation/screens/job_swipe_screen.dart';
+import '../../jobs/presentation/screens/applications_screen.dart';
+import '../../jobs/presentation/screens/notifications_screen.dart';
 
 class EmployeeDashboardScreen extends ConsumerStatefulWidget {
   const EmployeeDashboardScreen({super.key});
@@ -135,6 +136,18 @@ class _EmployeeDashboardScreenState
     ];
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Employee Dashboard'),
+        backgroundColor: const Color(0xFF7EC8FF),
+        foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => context.go('/settings'),
+            tooltip: 'Settings',
+          ),
+        ],
+      ),
       body: screens[_selectedIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

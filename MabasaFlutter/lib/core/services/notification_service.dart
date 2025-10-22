@@ -1,18 +1,27 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'api_client.dart';
 
 class NotificationService {
-  static final FirebaseMessaging _messaging = FirebaseMessaging.instance;
-  
   static Future<void> initialize() async {
-    // Request permission
-    await _messaging.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-    
-    // Get FCM token
-    String? token = await _messaging.getToken();
-    print('FCM Token: $token');
+    // Initialize notification service for Django backend
+    // This can be extended to handle push notifications via Django
+    print('Notification service initialized for Django backend');
+  }
+  
+  static Future<void> markAsRead(int notificationId) async {
+    try {
+      final dio = await ApiClient().authed();
+      await dio.patch('/api/notifications/$notificationId/read/');
+    } catch (e) {
+      print('Error marking notification as read: $e');
+    }
+  }
+  
+  static Future<void> markAllAsRead() async {
+    try {
+      final dio = await ApiClient().authed();
+      await dio.post('/api/notifications/mark-all-read/');
+    } catch (e) {
+      print('Error marking all notifications as read: $e');
+    }
   }
 }

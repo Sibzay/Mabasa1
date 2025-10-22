@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart'; // Removed - using image_picker instead
 import 'dart:io';
 import '../../../core/services/api_client.dart';
 import 'package:dio/dio.dart';
@@ -32,6 +32,11 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   final _experienceController = TextEditingController();
   final _educationController = TextEditingController();
   final _skillsController = TextEditingController();
+  final _yearsExperienceController = TextEditingController();
+
+  // Education and Experience lists
+  List<Map<String, dynamic>> _educationList = [];
+  List<Map<String, dynamic>> _experienceList = [];
 
   // File data
   File? _profileImage;
@@ -47,6 +52,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
     _experienceController.dispose();
     _educationController.dispose();
     _skillsController.dispose();
+    _yearsExperienceController.dispose();
     super.dispose();
   }
 
@@ -59,16 +65,37 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   }
 
   Future<void> _pickCV() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf', 'doc', 'docx'],
+    // For now, we'll use a simple text input for CV file path
+    // In a real app, you'd implement proper file picking
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('CV File'),
+        content: TextField(
+          decoration: const InputDecoration(
+            hintText: 'Enter CV file path or URL',
+            border: OutlineInputBorder(),
+          ),
+          onChanged: (value) {
+            setState(() {
+              _cvFileName = value;
+            });
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
     );
-    if (result != null) {
-      setState(() {
-        _cvFile = File(result.files.single.path!);
-        _cvFileName = result.files.single.name;
-      });
-    }
   }
 
   @override
@@ -329,25 +356,16 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
         children: [
           const SizedBox(height: 24),
           _buildTextField(
-            controller: _experienceController,
-            label: 'Work Experience',
-            icon: Icons.work_rounded,
-            maxLines: 5,
-            hint: 'List your previous work experience...',
+            controller: _yearsExperienceController,
+            label: 'Years of Experience',
+            icon: Icons.timeline_rounded,
+            keyboardType: TextInputType.number,
+            hint: 'Enter years of professional experience',
             validator: (value) {
-              if (value?.isEmpty ?? true) return 'Please enter work experience';
-              return null;
-            },
-          ),
-          const SizedBox(height: 16),
-          _buildTextField(
-            controller: _educationController,
-            label: 'Education',
-            icon: Icons.school_rounded,
-            maxLines: 4,
-            hint: 'List your educational qualifications...',
-            validator: (value) {
-              if (value?.isEmpty ?? true) return 'Please enter education';
+              if (value?.isEmpty ?? true)
+                return 'Please enter years of experience';
+              if (int.tryParse(value!) == null)
+                return 'Please enter a valid number';
               return null;
             },
           ),
@@ -363,6 +381,14 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
               return null;
             },
           ),
+          const SizedBox(height: 24),
+          _buildSectionTitle('Education'),
+          const SizedBox(height: 16),
+          _buildEducationList(),
+          const SizedBox(height: 24),
+          _buildSectionTitle('Work Experience'),
+          const SizedBox(height: 16),
+          _buildExperienceList(),
         ],
       ),
     );
@@ -563,5 +589,194 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Row(
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF2E86AB),
+          ),
+        ),
+        const Spacer(),
+        IconButton(
+          onPressed: () => _addEducationOrExperience(title),
+          icon: const Icon(Icons.add, color: Color(0xFF2E86AB)),
+          tooltip: 'Add $title',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEducationList() {
+    if (_educationList.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.grey[300]!),
+        ),
+        child: const Center(
+          child: Text(
+            'No education entries yet. Tap + to add.',
+            style: TextStyle(color: Colors.grey),
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      children: _educationList.asMap().entries.map((entry) {
+        int index = entry.key;
+        Map<String, dynamic> education = entry.value;
+        return Card(
+          margin: const EdgeInsets.only(bottom: 8),
+          child: ListTile(
+            title: Text(education['qualification'] ?? ''),
+            subtitle: Text(education['institution'] ?? ''),
+            trailing: IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: () => setState(() => _educationList.removeAt(index)),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildExperienceList() {
+    if (_experienceList.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.grey[300]!),
+        ),
+        child: const Center(
+          child: Text(
+            'No experience entries yet. Tap + to add.',
+            style: TextStyle(color: Colors.grey),
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      children: _experienceList.asMap().entries.map((entry) {
+        int index = entry.key;
+        Map<String, dynamic> experience = entry.value;
+        return Card(
+          margin: const EdgeInsets.only(bottom: 8),
+          child: ListTile(
+            title: Text(experience['role'] ?? ''),
+            subtitle: Text(
+                '${experience['company'] ?? ''} (${experience['start']} - ${experience['end']})'),
+            trailing: IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: () => setState(() => _experienceList.removeAt(index)),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  void _addEducationOrExperience(String type) {
+    showDialog(
+      context: context,
+      builder: (context) => _buildAddDialog(type),
+    );
+  }
+
+  Widget _buildAddDialog(String type) {
+    final institutionController = TextEditingController();
+    final qualificationController = TextEditingController();
+    final startController = TextEditingController();
+    final endController = TextEditingController();
+    final descriptionController = TextEditingController();
+
+    return AlertDialog(
+      title: Text('Add $type'),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (type == 'Education') ...[
+              TextField(
+                controller: institutionController,
+                decoration: const InputDecoration(labelText: 'Institution'),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: qualificationController,
+                decoration: const InputDecoration(labelText: 'Qualification'),
+              ),
+            ] else ...[
+              TextField(
+                controller: institutionController,
+                decoration: const InputDecoration(labelText: 'Company'),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: qualificationController,
+                decoration: const InputDecoration(labelText: 'Role/Position'),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: descriptionController,
+                decoration: const InputDecoration(labelText: 'Description'),
+                maxLines: 3,
+              ),
+            ],
+            const SizedBox(height: 8),
+            TextField(
+              controller: startController,
+              decoration: const InputDecoration(labelText: 'Start Date (YYYY)'),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: endController,
+              decoration: const InputDecoration(
+                  labelText: 'End Date (YYYY) or "Present"'),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            if (type == 'Education') {
+              _educationList.add({
+                'institution': institutionController.text,
+                'qualification': qualificationController.text,
+                'start': startController.text,
+                'end': endController.text,
+              });
+            } else {
+              _experienceList.add({
+                'company': institutionController.text,
+                'role': qualificationController.text,
+                'start': startController.text,
+                'end': endController.text,
+                'description': descriptionController.text,
+              });
+            }
+            setState(() {});
+            Navigator.of(context).pop();
+          },
+          child: const Text('Add'),
+        ),
+      ],
+    );
   }
 }

@@ -42,9 +42,26 @@ def me(request):
 @permission_classes([permissions.IsAuthenticated])
 def dashboard(request):
 	role = request.user.role
+	
+	# Check if user has a candidate profile (for employees)
+	profile_complete = True
+	if role == User.ROLE_EMPLOYEE:
+		try:
+			profile_complete = hasattr(request.user, 'candidate_profile')
+		except:
+			profile_complete = False
+	
 	if role == User.ROLE_EMPLOYER:
-		return Response({'message': 'Employer dashboard', 'stats': {'jobs_posted': 0, 'applicants': 0}})
-	return Response({'message': 'Employee dashboard', 'stats': {'jobs_suggested': 3, 'applications': 0}})
+		return Response({
+			'message': 'Employer dashboard', 
+			'stats': {'jobs_posted': 0, 'applicants': 0},
+			'profile_complete': profile_complete
+		})
+	return Response({
+		'message': 'Employee dashboard', 
+		'stats': {'jobs_suggested': 3, 'applications': 0},
+		'profile_complete': profile_complete
+	})
 
 
 @api_view(['POST'])

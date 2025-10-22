@@ -198,6 +198,21 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
     final statusColor = _getStatusColor(status);
     final statusIcon = _getStatusIcon(status);
 
+    // Extract job information
+    final job = app['job'] ?? {};
+    final jobTitle = job['title'] ?? app['job_title'] ?? 'Job Title';
+    final company =
+        job['employer']?['company_name'] ?? app['company'] ?? 'Company';
+    final location = job['location'] ?? 'Location not specified';
+    final isOpen = job['is_open'] ?? true;
+    final closingDate = job['closing_date'];
+    final appliedDate = app['created_at'] ?? app['applied_date'];
+
+    // Check if job is closed
+    final isJobClosed = !isOpen ||
+        (closingDate != null &&
+            DateTime.now().isAfter(DateTime.parse(closingDate)));
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
@@ -241,7 +256,7 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            app['job_title'] ?? 'Job Title',
+                            jobTitle,
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -250,42 +265,86 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            app['company'] ?? 'Company',
+                            company,
                             style: TextStyle(
                                 fontSize: 14, color: Colors.grey[600]),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            location,
+                            style: TextStyle(
+                                fontSize: 12, color: Colors.grey[500]),
                           ),
                         ],
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: statusColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(statusIcon, size: 16, color: statusColor),
-                          const SizedBox(width: 4),
-                          Text(
-                            status.toUpperCase(),
+                    Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: statusColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(statusIcon, size: 16, color: statusColor),
+                              const SizedBox(width: 4),
+                              Text(
+                                status.toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: statusColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: isJobClosed
+                                ? Colors.red.withOpacity(0.1)
+                                : Colors.green.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            isJobClosed ? 'CLOSED' : 'OPEN',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 10,
                               fontWeight: FontWeight.bold,
-                              color: statusColor,
+                              color: isJobClosed ? Colors.red : Colors.green,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
                 const SizedBox(height: 16),
-                Text(
-                  'Applied ${_formatDate(app['applied_date'])}',
-                  style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+                Row(
+                  children: [
+                    Icon(Icons.schedule, size: 16, color: Colors.grey[500]),
+                    const SizedBox(width: 4),
+                    Text(
+                      'Applied ${_formatDate(appliedDate)}',
+                      style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+                    ),
+                    if (closingDate != null) ...[
+                      const SizedBox(width: 16),
+                      Icon(Icons.event, size: 16, color: Colors.grey[500]),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Closes ${_formatDate(closingDate)}',
+                        style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+                      ),
+                    ],
+                  ],
                 ),
                 const SizedBox(height: 16),
                 Row(

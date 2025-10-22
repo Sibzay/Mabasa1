@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
@@ -8,6 +7,7 @@ import '../../features/jobs/presentation/screens/job_swipe_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/employer/dashboard/employer_dashboard_screen.dart';
 import '../../features/employee/dashboard/employee_dashboard_screen.dart';
+import '../../features/settings/settings_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -40,6 +40,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/forgot-password',
         builder: (context, state) => const ForgotPasswordScreen(),
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsScreen(),
       ),
     ],
   );

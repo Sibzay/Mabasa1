@@ -16,9 +16,6 @@ dependencies:
   
   # Firebase (removed - using Django backend)
   # firebase_core: ^2.24.2
-  # firebase_auth: ^4.15.3
-  # cloud_firestore: ^4.13.6
-  # firebase_storage: ^11.5.6
   # firebase_messaging: ^14.7.10
   
   # Navigation
@@ -48,7 +45,6 @@ dependencies:
   flutter_card_swiper: ^7.0.2
   shimmer: ^3.0.0
   flutter_spinkit: ^5.2.0
-  file_picker: ^6.0.0
 
 dev_dependencies:
   flutter_test:

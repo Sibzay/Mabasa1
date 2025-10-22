@@ -141,40 +141,64 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
   }
 
   Widget _buildCategoryBar() {
-    return SizedBox(
-      height: 48,
-      child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          final cat = _categories[index];
-          final selected = (_selectedCategory ?? 'All') == cat;
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                _selectedCategory = cat;
-              });
-              _loadCandidates();
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-              decoration: BoxDecoration(
-                color: selected ? const Color(0xFF7EC8FF) : Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xFF7EC8FF)),
-              ),
-              child: Text(
-                cat,
-                style: TextStyle(
-                  color: selected ? Colors.white : const Color(0xFF1C6BA8),
-                  fontWeight: FontWeight.w600,
-                ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: Row(
+        children: [
+          Expanded(
+            child: SizedBox(
+              height: 48,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  final cat = _categories[index];
+                  final selected = (_selectedCategory ?? 'All') == cat;
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedCategory = cat;
+                        _currentIndex = 0;
+                      });
+                      _loadCandidates();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 8),
+                      decoration: BoxDecoration(
+                        color:
+                            selected ? const Color(0xFF7EC8FF) : Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: const Color(0xFF7EC8FF)),
+                      ),
+                      child: Text(
+                        cat,
+                        style: TextStyle(
+                          color:
+                              selected ? Colors.white : const Color(0xFF1C6BA8),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (_, __) => const SizedBox(width: 8),
+                itemCount: _categories.length,
               ),
             ),
-          );
-        },
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
-        itemCount: _categories.length,
+          ),
+          const SizedBox(width: 8),
+          IconButton(
+            onPressed: _loadCandidates,
+            icon: const Icon(Icons.refresh, color: Color(0xFF7EC8FF)),
+            tooltip: 'Refresh candidates',
+            style: IconButton.styleFrom(
+              backgroundColor: Colors.grey[100],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -205,11 +229,31 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Icon(Icons.people_outline, size: 80, color: Color(0xFF7EC8FF)),
-          SizedBox(height: 16),
-          Text('No Candidates Right Now',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        children: [
+          Icon(Icons.people_outline, size: 80, color: Colors.grey[400]),
+          const SizedBox(height: 16),
+          const Text(
+            'No suitable candidates found',
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Please refresh to see newer candidates',
+            style: TextStyle(fontSize: 14, color: Colors.black54),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton.icon(
+            onPressed: _loadCandidates,
+            icon: const Icon(Icons.refresh),
+            label: const Text('Refresh'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF7EC8FF),
+              foregroundColor: Colors.white,
+            ),
+          ),
         ],
       ),
     );
@@ -289,7 +333,7 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
                             style: TextStyle(fontWeight: FontWeight.bold)),
                         const SizedBox(height: 8),
                         Wrap(spacing: 8, runSpacing: 8, children: [
-                          ...List<String>.from(candidate['skills'] ?? [])
+                          ..._getSkillsList(candidate['skills'])
                               .map((s) => Chip(label: Text(s))),
                         ]),
                         const SizedBox(height: 16),
@@ -440,5 +484,24 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
         ),
       ),
     );
+  }
+
+  List<String> _getSkillsList(dynamic skills) {
+    if (skills == null) return [];
+
+    if (skills is List) {
+      return skills.map((s) => s.toString()).toList();
+    }
+
+    if (skills is String) {
+      // Handle case where skills might be a comma-separated string
+      return skills
+          .split(',')
+          .map((s) => s.trim())
+          .where((s) => s.isNotEmpty)
+          .toList();
+    }
+
+    return [];
   }
 }
