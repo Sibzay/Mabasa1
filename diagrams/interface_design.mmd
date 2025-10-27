@@ -1,0 +1,76 @@
+﻿graph TD
+    subgraph "Authentication"
+        LOGIN[Login Screen]
+        REGISTER[Register Account]
+        FORGOT[Password Reset]
+    end
+
+    subgraph "Employee Module"
+        E_DASH[Employee Dashboard]
+        JOBS[Job Search & Swipe]
+        APPLY[Application Tracking]
+        PROFILE[Profile Management]
+        E_NOTIF[Notifications]
+    end
+
+    subgraph "Employer Module"
+        M_DASH[Employer Dashboard]
+        POST[Post New Job]
+        MANAGE[Job Management]
+        APPS[Applicant Review]
+        CANDIDATES[Candidate Search]
+        INTERVIEWS[Interview Schedule]
+        M_NOTIF[Notifications]
+    end
+
+    subgraph "Backend Services"
+        AUTH_API[Authentication Service]
+        EMP_API[Employee Service]
+        MGR_API[Employer Service]
+        NOTIF_API[Notification Service]
+    end
+
+    subgraph "External Systems"
+        FIREBASE[Firebase Messaging]
+        STORAGE[File Storage]
+        EMAIL[Email Service]
+    end
+
+    %% Authentication flows
+    LOGIN --> E_DASH
+    LOGIN --> M_DASH
+    REGISTER --> LOGIN
+    FORGOT --> LOGIN
+    
+    %% Employee flows
+    E_DASH --> JOBS
+    E_DASH --> APPLY
+    E_DASH --> PROFILE
+    E_DASH --> E_NOTIF
+    JOBS --> APPLY
+    
+    %% Employer flows
+    M_DASH --> POST
+    M_DASH --> MANAGE
+    M_DASH --> CANDIDATES
+    M_DASH --> INTERVIEWS
+    M_DASH --> M_NOTIF
+    MANAGE --> APPS
+    APPS --> INTERVIEWS
+    CANDIDATES --> INTERVIEWS
+    
+    %% Backend connections
+    LOGIN --> AUTH_API
+    REGISTER --> AUTH_API
+    JOBS --> EMP_API
+    APPLY --> EMP_API
+    POST --> MGR_API
+    APPS --> MGR_API
+    E_NOTIF --> NOTIF_API
+    M_NOTIF --> NOTIF_API
+    
+    %% External services
+    NOTIF_API --> FIREBASE
+    PROFILE --> STORAGE
+    AUTH_API --> EMAIL
+    INTERVIEWS --> EMAIL

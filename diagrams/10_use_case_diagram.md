@@ -1,0 +1,137 @@
+# Use Case Diagram - Mabasa Job Platform
+
+```mermaid
+graph TD
+    %% Actors
+    EMPLOYEE[👤 Employee/Candidate]
+    EMPLOYER[🏢 Employer]
+    SYSTEM[System]
+
+    %% Employee Use Cases
+    subgraph "Employee Use Cases"
+        REGISTER_E[Register Account]
+        LOGIN_E[Login]
+        FORGOT_PASSWORD_E[Forgot Password]
+        BROWSE_JOBS[Browse Jobs]
+        SEARCH_JOBS[Search Jobs]
+        FILTER_JOBS[Filter Jobs by Category/Location]
+        VIEW_JOB_DETAILS[View Job Details]
+        APPLY_JOB[Apply to Job]
+        VIEW_APPLICATIONS[View My Applications]
+        UPDATE_PROFILE[Update Profile]
+        VIEW_NOTIFICATIONS[View Notifications]
+        MARK_NOTIFICATIONS_READ[Mark Notifications as Read]
+        LOGOUT_E[Logout]
+    end
+
+    %% Employer Use Cases
+    subgraph "Employer Use Cases"
+        REGISTER_ER[Register Account]
+        LOGIN_ER[Login]
+        FORGOT_PASSWORD_ER[Forgot Password]
+        POST_JOB[Post New Job]
+        VIEW_MY_JOBS[View My Posted Jobs]
+        EDIT_JOB[Edit Job Posting]
+        DELETE_JOB[Delete Job Posting]
+        VIEW_JOB_APPLICATIONS[View Job Applications]
+        SHORTLIST_CANDIDATE[Shortlist Candidate]
+        REJECT_CANDIDATE[Reject Candidate]
+        SCHEDULE_INTERVIEW[Schedule Interview]
+        VIEW_INTERVIEWS[View Scheduled Interviews]
+        BROWSE_CANDIDATES[Browse Candidate Profiles]
+        SHORTLIST_FROM_BROWSE[Shortlist from Browse]
+        VIEW_SHORTLIST[View Shortlisted Candidates]
+        REMOVE_FROM_SHORTLIST[Remove from Shortlist]
+        UPDATE_COMPANY_PROFILE[Update Company Profile]
+        VIEW_NOTIFICATIONS_ER[View Notifications]
+        MARK_NOTIFICATIONS_READ_ER[Mark Notifications as Read]
+        LOGOUT_ER[Logout]
+    end
+
+    %% System Use Cases
+    subgraph "System Use Cases"
+        SEND_NOTIFICATION[Send Notification]
+        PROCESS_APPLICATION[Process Application]
+        MATCH_CANDIDATES[Match Candidates to Jobs]
+        STORE_FILES[Store Resume Files]
+        VALIDATE_USER[Validate User Credentials]
+        GENERATE_TOKENS[Generate JWT Tokens]
+        VERIFY_TOKENS[Verify JWT Tokens]
+        ENCRYPT_DATA[Encrypt Sensitive Data]
+        BACKUP_DATA[Backup Database]
+    end
+
+    %% Relationships
+    EMPLOYEE --> REGISTER_E
+    EMPLOYEE --> LOGIN_E
+    EMPLOYEE --> FORGOT_PASSWORD_E
+    EMPLOYEE --> BROWSE_JOBS
+    EMPLOYEE --> SEARCH_JOBS
+    EMPLOYEE --> FILTER_JOBS
+    EMPLOYEE --> VIEW_JOB_DETAILS
+    EMPLOYEE --> APPLY_JOB
+    EMPLOYEE --> VIEW_APPLICATIONS
+    EMPLOYEE --> UPDATE_PROFILE
+    EMPLOYEE --> VIEW_NOTIFICATIONS
+    EMPLOYEE --> MARK_NOTIFICATIONS_READ
+    EMPLOYEE --> LOGOUT_E
+
+    EMPLOYER --> REGISTER_ER
+    EMPLOYER --> LOGIN_ER
+    EMPLOYER --> FORGOT_PASSWORD_ER
+    EMPLOYER --> POST_JOB
+    EMPLOYER --> VIEW_MY_JOBS
+    EMPLOYER --> EDIT_JOB
+    EMPLOYER --> DELETE_JOB
+    EMPLOYER --> VIEW_JOB_APPLICATIONS
+    EMPLOYER --> SHORTLIST_CANDIDATE
+    EMPLOYER --> REJECT_CANDIDATE
+    EMPLOYER --> SCHEDULE_INTERVIEW
+    EMPLOYER --> VIEW_INTERVIEWS
+    EMPLOYER --> BROWSE_CANDIDATES
+    EMPLOYER --> SHORTLIST_FROM_BROWSE
+    EMPLOYER --> VIEW_SHORTLIST
+    EMPLOYER --> REMOVE_FROM_SHORTLIST
+    EMPLOYER --> UPDATE_COMPANY_PROFILE
+    EMPLOYER --> VIEW_NOTIFICATIONS_ER
+    EMPLOYER --> MARK_NOTIFICATIONS_READ_ER
+    EMPLOYER --> LOGOUT_ER
+
+    %% System interactions
+    APPLY_JOB --> PROCESS_APPLICATION
+    PROCESS_APPLICATION --> SEND_NOTIFICATION
+
+    POST_JOB --> MATCH_CANDIDATES
+    MATCH_CANDIDATES --> SEND_NOTIFICATION
+
+    SCHEDULE_INTERVIEW --> SEND_NOTIFICATION
+
+    REGISTER_E --> VALIDATE_USER
+    REGISTER_ER --> VALIDATE_USER
+    LOGIN_E --> VALIDATE_USER
+    LOGIN_ER --> VALIDATE_USER
+
+    VALIDATE_USER --> GENERATE_TOKENS
+    APPLY_JOB --> STORE_FILES
+
+    SYSTEM --> SEND_NOTIFICATION
+    SYSTEM --> PROCESS_APPLICATION
+    SYSTEM --> MATCH_CANDIDATES
+    SYSTEM --> STORE_FILES
+    SYSTEM --> VALIDATE_USER
+    SYSTEM --> GENERATE_TOKENS
+    SYSTEM --> VERIFY_TOKENS
+    SYSTEM --> ENCRYPT_DATA
+    SYSTEM --> BACKUP_DATA
+
+    %% Include relationships
+    VIEW_JOB_APPLICATIONS --> SHORTLIST_CANDIDATE
+    VIEW_JOB_APPLICATIONS --> REJECT_CANDIDATE
+    VIEW_JOB_APPLICATIONS --> SCHEDULE_INTERVIEW
+
+    BROWSE_CANDIDATES --> SHORTLIST_FROM_BROWSE
+    VIEW_SHORTLIST --> REMOVE_FROM_SHORTLIST
+
+    VIEW_MY_JOBS --> EDIT_JOB
+    VIEW_MY_JOBS --> DELETE_JOB
+    VIEW_MY_JOBS --> VIEW_JOB_APPLICATIONS

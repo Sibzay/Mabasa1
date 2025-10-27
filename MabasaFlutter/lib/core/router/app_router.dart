@@ -7,6 +7,7 @@ import '../../features/jobs/presentation/screens/job_swipe_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/employer/dashboard/employer_dashboard_screen.dart';
 import '../../features/employee/dashboard/employee_dashboard_screen.dart';
+import '../../features/employee/dashboard/profile_setup_screen.dart';
 import '../../features/settings/settings_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -40,6 +41,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/forgot-password',
         builder: (context, state) => const ForgotPasswordScreen(),
+      ),
+      GoRoute(
+        path: '/profile-setup',
+        builder: (context, state) => const ProfileSetupScreen(),
       ),
       GoRoute(
         path: '/settings',

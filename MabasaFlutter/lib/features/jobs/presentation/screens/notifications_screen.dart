@@ -82,7 +82,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              const Color(0xFFB4E4FF).withOpacity(0.3),
+              const Color(0xFF1E40AF).withOpacity(0.3),
               Colors.white,
             ],
           ),
@@ -113,7 +113,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                         },
                         child: const Text(
                           'Mark all read',
-                          style: TextStyle(color: Color(0xFF7EC8FF)),
+                          style: TextStyle(color: Color(0xFF1E3A8A)),
                         ),
                       ),
                   ],
@@ -140,7 +140,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.error_outline, size: 64, color: Color(0xFF7EC8FF)),
+          const Icon(Icons.error_outline, size: 64, color: Color(0xFF1E3A8A)),
           const SizedBox(height: 16),
           Text(_error!,
               style: const TextStyle(fontSize: 16, color: Colors.grey)),
@@ -148,7 +148,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
           ElevatedButton(
             onPressed: _loadNotifications,
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF7EC8FF),
+              backgroundColor: const Color(0xFF1E3A8A),
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               shape: RoundedRectangleBorder(
@@ -167,7 +167,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.notifications_outlined,
-              size: 80, color: Color(0xFF7EC8FF)),
+              size: 80, color: Color(0xFF1E3A8A)),
           const SizedBox(height: 24),
           const Text(
             'No Notifications',
@@ -226,12 +226,12 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
           color:
-              isRead ? Colors.white : const Color(0xFF7EC8FF).withOpacity(0.05),
+              isRead ? Colors.white : const Color(0xFF1E3A8A).withOpacity(0.05),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isRead
                 ? Colors.transparent
-                : const Color(0xFF7EC8FF).withOpacity(0.2),
+                : const Color(0xFF1E3A8A).withOpacity(0.2),
             width: 1,
           ),
           boxShadow: [
@@ -290,7 +290,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                                 width: 10,
                                 height: 10,
                                 decoration: const BoxDecoration(
-                                  color: Color(0xFF7EC8FF),
+                                  color: Color(0xFF1E3A8A),
                                   shape: BoxShape.circle,
                                 ),
                               ),
@@ -378,7 +378,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
       case 'message':
         return Colors.orange;
       default:
-        return const Color(0xFF7EC8FF);
+        return const Color(0xFF1E3A8A);
     }
   }
 
@@ -493,7 +493,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                             Navigator.pop(context);
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF7EC8FF),
+                            backgroundColor: const Color(0xFF1E3A8A),
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(

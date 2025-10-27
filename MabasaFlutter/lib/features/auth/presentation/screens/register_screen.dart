@@ -45,9 +45,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              const Color(0xFFB4E4FF),
-              const Color(0xFF95D5FF),
-              const Color(0xFF7EC8FF).withOpacity(0.9),
+              const Color(0xFF1E40AF),
+              const Color(0xFF1D4ED8),
+              const Color(0xFF1E3A8A).withOpacity(0.9),
             ],
           ),
         ),
@@ -91,7 +91,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
               child: const Icon(
                 Icons.work_rounded,
                 size: 60,
-                color: Color(0xFF7EC8FF),
+                color: Color(0xFF1E3A8A),
               ),
             ),
             const SizedBox(height: 32),
@@ -128,7 +128,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
               title: 'I\'m Looking for Work',
               subtitle: 'Find your next opportunity',
               icon: Icons.person_search_rounded,
-              color: const Color(0xFF7EC8FF),
+              color: const Color(0xFF1E3A8A),
               onTap: () => setState(() => _selectedRole = 'employee'),
             ),
             const SizedBox(height: 20),
@@ -138,7 +138,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
               title: 'I\'m Hiring',
               subtitle: 'Find the perfect candidates',
               icon: Icons.business_rounded,
-              color: const Color(0xFF5FB3FF),
+              color: const Color(0xFF3B82F6),
               onTap: () => setState(() => _selectedRole = 'employer'),
             ),
             const SizedBox(height: 32),
@@ -381,7 +381,7 @@ class _JobSeekerRegistrationFormState
                           _obscurePassword
                               ? Icons.visibility_rounded
                               : Icons.visibility_off_rounded,
-                          color: const Color(0xFF7EC8FF),
+                          color: const Color(0xFF1E3A8A),
                         ),
                         onPressed: () => setState(
                             () => _obscurePassword = !_obscurePassword),
@@ -406,7 +406,7 @@ class _JobSeekerRegistrationFormState
                           _obscureConfirmPassword
                               ? Icons.visibility_rounded
                               : Icons.visibility_off_rounded,
-                          color: const Color(0xFF7EC8FF),
+                          color: const Color(0xFF1E3A8A),
                         ),
                         onPressed: () => setState(() =>
                             _obscureConfirmPassword = !_obscureConfirmPassword),
@@ -446,7 +446,7 @@ class _JobSeekerRegistrationFormState
                       child: ElevatedButton(
                         onPressed: _isLoading ? null : _handleRegister,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF7EC8FF),
+                          backgroundColor: const Color(0xFF1E3A8A),
                           foregroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
@@ -505,7 +505,7 @@ class _JobSeekerRegistrationFormState
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
-          prefixIcon: Icon(icon, color: const Color(0xFF7EC8FF), size: 22),
+          prefixIcon: Icon(icon, color: const Color(0xFF1E3A8A), size: 22),
           suffixIcon: suffixIcon,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
@@ -517,7 +517,7 @@ class _JobSeekerRegistrationFormState
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Color(0xFF7EC8FF), width: 2),
+            borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
@@ -707,7 +707,7 @@ class _EmployerRegistrationFormState
                           _obscurePassword
                               ? Icons.visibility_rounded
                               : Icons.visibility_off_rounded,
-                          color: const Color(0xFF5FB3FF),
+                          color: const Color(0xFF3B82F6),
                         ),
                         onPressed: () => setState(
                             () => _obscurePassword = !_obscurePassword),
@@ -732,7 +732,7 @@ class _EmployerRegistrationFormState
                           _obscureConfirmPassword
                               ? Icons.visibility_rounded
                               : Icons.visibility_off_rounded,
-                          color: const Color(0xFF5FB3FF),
+                          color: const Color(0xFF3B82F6),
                         ),
                         onPressed: () => setState(() =>
                             _obscureConfirmPassword = !_obscureConfirmPassword),
@@ -772,7 +772,7 @@ class _EmployerRegistrationFormState
                       child: ElevatedButton(
                         onPressed: _isLoading ? null : _handleRegister,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF5FB3FF),
+                          backgroundColor: const Color(0xFF3B82F6),
                           foregroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
@@ -831,7 +831,7 @@ class _EmployerRegistrationFormState
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
-          prefixIcon: Icon(icon, color: const Color(0xFF5FB3FF), size: 22),
+          prefixIcon: Icon(icon, color: const Color(0xFF3B82F6), size: 22),
           suffixIcon: suffixIcon,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
@@ -843,7 +843,7 @@ class _EmployerRegistrationFormState
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Color(0xFF5FB3FF), width: 2),
+            borderSide: const BorderSide(color: Color(0xFF3B82F6), width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),

@@ -99,11 +99,14 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
         params['category'] = _selectedCategory;
       if (_search.isNotEmpty) params['search'] = _search;
       if (_location.isNotEmpty) params['location'] = _location;
-      final res = await dio.get('/api/employer/employee/jobs/recommended/',
+      final res = await dio.get('/api/employee/jobs/recommended/',
           queryParameters: params);
+      print('API Response: ${res.data}');
+      print('Jobs data: ${res.data['jobs']}');
       final List<Map<String, dynamic>> loaded = List<Map<String, dynamic>>.from(
         (res.data is Map && res.data['jobs'] != null) ? res.data['jobs'] : [],
       );
+      print('Loaded jobs: $loaded');
       setState(() {
         _jobs = reset ? loaded : [..._jobs, ...loaded];
         _currentIndex = 0;
@@ -138,7 +141,7 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
   Future<void> _swipeJob(bool interested, String jobId) async {
     try {
       final dio = await ApiClient().authed();
-      await dio.post('/api/employer/employee/jobs/swipe/', data: {
+      await dio.post('/api/employee/jobs/swipe/', data: {
         'job_id': jobId,
         'interested': interested,
       });
@@ -206,7 +209,7 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    const Color(0xFFB4E4FF).withOpacity(0.3),
+                    const Color(0xFF1E40AF).withOpacity(0.3),
                     Colors.white,
                   ],
                 ),
@@ -301,7 +304,7 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
                     _loadJobs(reset: true);
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF7EC8FF),
+                      backgroundColor: const Color(0xFF1E3A8A),
                       foregroundColor: Colors.white),
                   child: const Text('Apply Filters'),
                 ),
@@ -332,9 +335,9 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                color: selected ? const Color(0xFF7EC8FF) : Colors.white,
+                color: selected ? const Color(0xFF1E3A8A) : Colors.white,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xFF7EC8FF)),
+                border: Border.all(color: const Color(0xFF1E3A8A)),
               ),
               child: Text(
                 cat,
@@ -357,7 +360,7 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.error_outline, size: 64, color: Color(0xFF7EC8FF)),
+          const Icon(Icons.error_outline, size: 64, color: Color(0xFF1E3A8A)),
           const SizedBox(height: 16),
           Text(
             _error ?? 'Unknown error',
@@ -367,7 +370,7 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
           ElevatedButton(
             onPressed: _loadJobs,
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF7EC8FF),
+              backgroundColor: const Color(0xFF1E3A8A),
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               shape: RoundedRectangleBorder(
@@ -386,7 +389,7 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.inbox_rounded, size: 80, color: Color(0xFF7EC8FF)),
+          const Icon(Icons.inbox_rounded, size: 80, color: Color(0xFF1E3A8A)),
           const SizedBox(height: 24),
           const Text(
             'No More Jobs',
@@ -407,7 +410,7 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
             icon: const Icon(Icons.refresh_rounded),
             label: const Text('Refresh'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF7EC8FF),
+              backgroundColor: const Color(0xFF1E3A8A),
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               shape: RoundedRectangleBorder(
@@ -443,7 +446,7 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF7EC8FF).withOpacity(0.1),
+                  color: const Color(0xFF1E3A8A).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
@@ -451,7 +454,7 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF7EC8FF),
+                    color: Color(0xFF1E3A8A),
                   ),
                 ),
               ),
@@ -487,7 +490,7 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
                         width: 80,
                         height: 80,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF7EC8FF).withOpacity(0.1),
+                          color: const Color(0xFF1E3A8A).withOpacity(0.1),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Center(
@@ -495,7 +498,7 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
                             (job['company'] ?? 'C')[0].toString(),
                             style: const TextStyle(
                               fontSize: 32,
-                              color: Color(0xFF7EC8FF),
+                              color: Color(0xFF1E3A8A),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -578,30 +581,33 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
                         ),
                         const SizedBox(height: 12),
                         ...List<String>.from(job['requirements'] ?? [])
-                            .map((req) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Icon(
-                                        Icons.check_circle,
-                                        size: 20,
-                                        color: Color(0xFF7EC8FF),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Expanded(
-                                        child: Text(
-                                          req,
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: Colors.grey[700],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                            .map((req) {
+                          print(
+                              'Requirement item: $req, type: ${req.runtimeType}');
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Icon(
+                                  Icons.check_circle,
+                                  size: 20,
+                                  color: Color(0xFF1E3A8A),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    req,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.grey[700],
+                                    ),
                                   ),
-                                )),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
                       ],
                     ],
                   ),
@@ -658,12 +664,12 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
                   height: 80,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [Color(0xFF7EC8FF), Color(0xFF5FB3FF)],
+                      colors: [Color(0xFF1E3A8A), Color(0xFF3B82F6)],
                     ),
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF7EC8FF).withOpacity(0.4),
+                        color: const Color(0xFF1E3A8A).withOpacity(0.4),
                         blurRadius: 20,
                         offset: const Offset(0, 8),
                       ),
@@ -687,20 +693,20 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        color: const Color(0xFF7EC8FF).withOpacity(0.1),
+        color: const Color(0xFF1E3A8A).withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 18, color: const Color(0xFF7EC8FF)),
+          Icon(icon, size: 18, color: const Color(0xFF1E3A8A)),
           const SizedBox(width: 6),
           Text(
             label,
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: Color(0xFF7EC8FF),
+              color: Color(0xFF1E3A8A),
             ),
           ),
         ],

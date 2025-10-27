@@ -51,9 +51,7 @@ class _EmployeeDashboardScreenState
       final isProfileComplete = data['profile_complete'] ?? false;
       if (!isProfileComplete && mounted) {
         // Navigate to profile setup if not complete
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const ProfileSetupScreen()),
-        );
+        context.go('/profile-setup');
       }
     } catch (e) {
       setState(() {
@@ -77,9 +75,9 @@ class _EmployeeDashboardScreenState
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color(0xFFB4E4FF),
-                const Color(0xFF95D5FF),
-                const Color(0xFF7EC8FF).withOpacity(0.9),
+                const Color(0xFF1E40AF),
+                const Color(0xFF1D4ED8),
+                const Color(0xFF1E3A8A).withOpacity(0.9),
               ],
             ),
           ),
@@ -97,9 +95,9 @@ class _EmployeeDashboardScreenState
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color(0xFFB4E4FF),
-                const Color(0xFF95D5FF),
-                const Color(0xFF7EC8FF).withOpacity(0.9),
+                const Color(0xFF1E40AF),
+                const Color(0xFF1D4ED8),
+                const Color(0xFF1E3A8A).withOpacity(0.9),
               ],
             ),
           ),
@@ -118,7 +116,7 @@ class _EmployeeDashboardScreenState
                   onPressed: _load,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                    foregroundColor: const Color(0xFF7EC8FF),
+                    foregroundColor: const Color(0xFF1E3A8A),
                   ),
                   child: const Text('Retry'),
                 ),
@@ -138,7 +136,7 @@ class _EmployeeDashboardScreenState
     return Scaffold(
       appBar: AppBar(
         title: const Text('Employee Dashboard'),
-        backgroundColor: const Color(0xFF7EC8FF),
+        backgroundColor: const Color(0xFF1E3A8A),
         foregroundColor: Colors.white,
         actions: [
           IconButton(
@@ -205,7 +203,7 @@ class _EmployeeDashboardScreenState
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
-              ? const Color(0xFF7EC8FF).withOpacity(0.1)
+              ? const Color(0xFF1E3A8A).withOpacity(0.1)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
@@ -214,7 +212,7 @@ class _EmployeeDashboardScreenState
           children: [
             Icon(
               isSelected ? selectedIcon : icon,
-              color: isSelected ? const Color(0xFF7EC8FF) : Colors.grey[600],
+              color: isSelected ? const Color(0xFF1E3A8A) : Colors.grey[600],
               size: 26,
             ),
             const SizedBox(height: 4),
@@ -223,7 +221,7 @@ class _EmployeeDashboardScreenState
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                color: isSelected ? const Color(0xFF7EC8FF) : Colors.grey[600],
+                color: isSelected ? const Color(0xFF1E3A8A) : Colors.grey[600],
               ),
             ),
           ],

@@ -61,6 +61,7 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
       _error = null;
     });
     try {
+      print('Loading candidates...');
       final dio = await ApiClient().authed();
       final params = <String, dynamic>{};
       if (_selectedCategory != null && _selectedCategory != 'All') {
@@ -68,11 +69,13 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
       }
       final res = await dio.get('/api/employer/candidates/recommended/',
           queryParameters: params);
+      print('API response: ${res.data}');
       final List<Map<String, dynamic>> loaded = List<Map<String, dynamic>>.from(
         (res.data is Map && res.data['candidates'] != null)
             ? res.data['candidates']
             : [],
       );
+      print('Loaded candidates count: ${loaded.length}');
       setState(() {
         _candidates = loaded.isNotEmpty
             ? loaded
@@ -80,13 +83,16 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
         _currentIndex = 0;
         _loading = false;
       });
+      print('Final candidates count: ${_candidates.length}');
     } on DioException catch (e) {
+      print('DioException: ${e.message}, response: ${e.response?.data}');
       setState(() {
         _error = 'Failed to load candidates: ${e.message ?? ''}';
         _candidates = List<Map<String, dynamic>>.from(_sampleCandidates);
         _loading = false;
       });
-    } catch (_) {
+    } catch (e) {
+      print('Other error: $e');
       setState(() {
         _error = 'Failed to load candidates';
         _candidates = List<Map<String, dynamic>>.from(_sampleCandidates);
@@ -98,12 +104,15 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
   Future<void> _swipeCandidate(
       {required bool shortlist, required String candidateId}) async {
     try {
+      print('Swiping candidate: $candidateId, shortlist: $shortlist');
       final dio = await ApiClient().authed();
-      await dio.post('/api/employer/candidates/swipe/', data: {
+      final res = await dio.post('/api/employer/candidates/swipe/', data: {
         'candidate_id': candidateId,
         'shortlist': shortlist,
       });
-    } catch (_) {
+      print('Swipe response: ${res.data}');
+    } catch (e) {
+      print('Swipe error: $e');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to save action')),
@@ -166,9 +175,9 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
                           horizontal: 14, vertical: 8),
                       decoration: BoxDecoration(
                         color:
-                            selected ? const Color(0xFF7EC8FF) : Colors.white,
+                            selected ? const Color(0xFF1E3A8A) : Colors.white,
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: const Color(0xFF7EC8FF)),
+                        border: Border.all(color: const Color(0xFF1E3A8A)),
                       ),
                       child: Text(
                         cat,
@@ -189,7 +198,7 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
           const SizedBox(width: 8),
           IconButton(
             onPressed: _loadCandidates,
-            icon: const Icon(Icons.refresh, color: Color(0xFF7EC8FF)),
+            icon: const Icon(Icons.refresh, color: Color(0xFF1E3A8A)),
             tooltip: 'Refresh candidates',
             style: IconButton.styleFrom(
               backgroundColor: Colors.grey[100],
@@ -208,7 +217,7 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.error_outline, size: 64, color: Color(0xFF7EC8FF)),
+          const Icon(Icons.error_outline, size: 64, color: Color(0xFF1E3A8A)),
           const SizedBox(height: 12),
           Text(_error ?? 'Unknown error',
               style: const TextStyle(color: Colors.grey)),
@@ -216,7 +225,7 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
           ElevatedButton(
             onPressed: _loadCandidates,
             style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF7EC8FF),
+                backgroundColor: const Color(0xFF1E3A8A),
                 foregroundColor: Colors.white),
             child: const Text('Retry'),
           ),
@@ -250,7 +259,7 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
             icon: const Icon(Icons.refresh),
             label: const Text('Refresh'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF7EC8FF),
+              backgroundColor: const Color(0xFF1E3A8A),
               foregroundColor: Colors.white,
             ),
           ),
@@ -260,7 +269,15 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
   }
 
   Widget _buildSwipeInterface() {
+    print(
+        'Building swipe interface, currentIndex: $_currentIndex, candidates length: ${_candidates.length}');
+    if (_currentIndex >= _candidates.length) {
+      print(
+          'Error: currentIndex $_currentIndex >= candidates length ${_candidates.length}');
+      return const Center(child: Text('No candidates available'));
+    }
     final candidate = _candidates[_currentIndex];
+    print('Current candidate: $candidate');
     return Column(
       children: [
         Padding(
@@ -274,11 +291,11 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                    color: const Color(0xFF7EC8FF).withOpacity(0.1),
+                    color: const Color(0xFF1E3A8A).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20)),
                 child: Text('${_currentIndex + 1}/${_candidates.length}',
                     style: const TextStyle(
-                        color: Color(0xFF7EC8FF), fontWeight: FontWeight.bold)),
+                        color: Color(0xFF1E3A8A), fontWeight: FontWeight.bold)),
               ),
             ],
           ),
@@ -305,13 +322,14 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
                       children: [
                         Row(children: [
                           CircleAvatar(
-                              radius: 28, child: Text(candidate['name'][0])),
+                              radius: 28,
+                              child: Text(candidate['name']?[0] ?? '?')),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(candidate['name'],
+                                  Text(candidate['name'] ?? 'Unknown',
                                       style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold)),
@@ -324,9 +342,11 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
                         const SizedBox(height: 16),
                         Wrap(spacing: 8, runSpacing: 8, children: [
                           _chip(Icons.place_rounded,
-                              candidate['location'] ?? 'Location'),
-                          _chip(Icons.work_history_rounded,
-                              candidate['experience'] ?? 'Experience'),
+                              candidate['location']?.toString() ?? 'Location'),
+                          _chip(
+                              Icons.work_history_rounded,
+                              candidate['years_experience']?.toString() ??
+                                  'Experience'),
                         ]),
                         const SizedBox(height: 16),
                         const Text('Skills',
@@ -334,13 +354,13 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
                         const SizedBox(height: 8),
                         Wrap(spacing: 8, runSpacing: 8, children: [
                           ..._getSkillsList(candidate['skills'])
-                              .map((s) => Chip(label: Text(s))),
+                              .map((s) => Chip(label: Text(s.toString()))),
                         ]),
                         const SizedBox(height: 16),
                         const Text('About',
                             style: TextStyle(fontWeight: FontWeight.bold)),
                         const SizedBox(height: 8),
-                        Text(candidate['bio'] ?? 'No bio'),
+                        Text(candidate['summary']?.toString() ?? 'No bio'),
                       ]),
                 ),
               ),
@@ -373,7 +393,7 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
               },
               child: _actionCircle(
                   icon: Icons.info_outline_rounded,
-                  color: const Color(0xFF7EC8FF),
+                  color: const Color(0xFF1E3A8A),
                   size: 32,
                   outlined: true),
             ),
@@ -387,10 +407,10 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-          color: const Color(0xFF7EC8FF).withOpacity(0.08),
+          color: const Color(0xFF1E3A8A).withOpacity(0.08),
           borderRadius: BorderRadius.circular(16)),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
-        Icon(icon, size: 16, color: const Color(0xFF7EC8FF)),
+        Icon(icon, size: 16, color: const Color(0xFF1E3A8A)),
         const SizedBox(width: 6),
         Text(label,
             style: const TextStyle(
@@ -439,16 +459,16 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
-              CircleAvatar(radius: 28, child: Text(c['name'][0])),
+              CircleAvatar(radius: 28, child: Text(c['name']?[0] ?? '?')),
               const SizedBox(width: 12),
               Expanded(
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    Text(c['name'],
+                    Text(c['name']?.toString() ?? 'Unknown',
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text(c['title'] ?? '-',
+                    Text(c['title']?.toString() ?? '-',
                         style: TextStyle(color: Colors.grey[700])),
                   ])),
             ]),
@@ -456,7 +476,7 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
             const Text('Profile Summary',
                 style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            Text(c['bio'] ?? 'No bio'),
+            Text(c['summary']?.toString() ?? 'No bio'),
             const Spacer(),
             SizedBox(
               width: double.infinity,
@@ -475,7 +495,7 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
                   } catch (_) {}
                 },
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF7EC8FF),
+                    backgroundColor: const Color(0xFF1E3A8A),
                     foregroundColor: Colors.white),
                 child: const Text('Schedule Interview'),
               ),
@@ -502,6 +522,7 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
           .toList();
     }
 
-    return [];
+    // Handle other types by converting to string
+    return [skills.toString()];
   }
 }

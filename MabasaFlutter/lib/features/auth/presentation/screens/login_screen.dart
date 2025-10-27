@@ -52,9 +52,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              const Color(0xFFB4E4FF),
-              const Color(0xFF95D5FF),
-              const Color(0xFF7EC8FF).withOpacity(0.9),
+              const Color(0xFF1E40AF),
+              const Color(0xFF1D4ED8),
+              const Color(0xFF1E3A8A).withOpacity(0.9),
             ],
           ),
         ),
@@ -84,7 +84,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                       child: const Icon(
                         Icons.work_rounded,
                         size: 60,
-                        color: Color(0xFF7EC8FF),
+                        color: Color(0xFF1E3A8A),
                       ),
                     ),
                     const SizedBox(height: 32),
@@ -181,7 +181,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                 _obscurePassword
                                     ? Icons.visibility_rounded
                                     : Icons.visibility_off_rounded,
-                                color: const Color(0xFF7EC8FF),
+                                color: const Color(0xFF1E3A8A),
                               ),
                               onPressed: () => setState(
                                   () => _obscurePassword = !_obscurePassword),
@@ -221,7 +221,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                             child: ElevatedButton(
                               onPressed: _isLoading ? null : _handleLogin,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF7EC8FF),
+                                backgroundColor: const Color(0xFF1E3A8A),
                                 foregroundColor: Colors.white,
                                 elevation: 0,
                                 shadowColor: Colors.transparent,
@@ -261,7 +261,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                               }
                             },
                             style: TextButton.styleFrom(
-                              foregroundColor: const Color(0xFF7EC8FF),
+                              foregroundColor: const Color(0xFF1E3A8A),
                             ),
                             child: const Text(
                               'Forgot Password?',
@@ -347,14 +347,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           children: [
             Icon(
               icon,
-              color: isSelected ? const Color(0xFF7EC8FF) : Colors.white,
+              color: isSelected ? const Color(0xFF1E3A8A) : Colors.white,
               size: 20,
             ),
             const SizedBox(width: 6),
             Text(
               label,
               style: TextStyle(
-                color: isSelected ? const Color(0xFF7EC8FF) : Colors.white,
+                color: isSelected ? const Color(0xFF1E3A8A) : Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
               ),
@@ -386,7 +386,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(color: Colors.grey[400]),
-          prefixIcon: Icon(icon, color: const Color(0xFF7EC8FF)),
+          prefixIcon: Icon(icon, color: const Color(0xFF1E3A8A)),
           suffixIcon: suffixIcon,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
@@ -398,7 +398,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Color(0xFF7EC8FF), width: 2),
+            borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 2),
           ),
           filled: true,
           fillColor: const Color(0xFFF5F9FF),

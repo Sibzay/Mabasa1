@@ -56,9 +56,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              const Color(0xFFB4E4FF),
-              const Color(0xFF95D5FF),
-              const Color(0xFF7EC8FF).withOpacity(0.9),
+              const Color(0xFF1E40AF),
+              const Color(0xFF1D4ED8),
+              const Color(0xFF1E3A8A).withOpacity(0.9),
             ],
           ),
         ),
@@ -110,7 +110,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                             ? Icons.mark_email_read_rounded
                             : Icons.lock_reset_rounded,
                         size: 60,
-                        color: const Color(0xFF7EC8FF),
+                        color: const Color(0xFF1E3A8A),
                       ),
                     ),
                     const SizedBox(height: 32),
@@ -217,7 +217,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                                   onPressed:
                                       _isLoading ? null : _handleForgotPassword,
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF7EC8FF),
+                                    backgroundColor: const Color(0xFF1E3A8A),
                                     foregroundColor: Colors.white,
                                     elevation: 0,
                                     shadowColor: Colors.transparent,
@@ -268,13 +268,13 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                             Container(
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF7EC8FF).withOpacity(0.1),
+                                color: const Color(0xFF1E3A8A).withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: const Icon(
                                 Icons.check_circle_rounded,
                                 size: 64,
-                                color: Color(0xFF7EC8FF),
+                                color: Color(0xFF1E3A8A),
                               ),
                             ),
                             const SizedBox(height: 24),
@@ -309,7 +309,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF7EC8FF),
+                                  backgroundColor: const Color(0xFF1E3A8A),
                                   foregroundColor: Colors.white,
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
@@ -386,7 +386,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(color: Colors.grey[400]),
-          prefixIcon: Icon(icon, color: const Color(0xFF7EC8FF)),
+          prefixIcon: Icon(icon, color: const Color(0xFF1E3A8A)),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
             borderSide: BorderSide.none,
@@ -397,7 +397,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Color(0xFF7EC8FF), width: 2),
+            borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),

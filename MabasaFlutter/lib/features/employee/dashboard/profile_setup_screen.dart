@@ -5,8 +5,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:file_picker/file_picker.dart'; // Removed - using image_picker instead
+import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 import '../../../core/services/api_client.dart';
 import 'package:dio/dio.dart';
@@ -42,6 +43,8 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   File? _profileImage;
   File? _cvFile;
   String? _cvFileName;
+  String? _cvUrl;
+  bool _useUrl = false;
 
   @override
   void dispose() {
@@ -65,22 +68,79 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   }
 
   Future<void> _pickCV() async {
-    // For now, we'll use a simple text input for CV file path
-    // In a real app, you'd implement proper file picking
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('CV File'),
+        title: const Text('Select CV Option'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.upload_file),
+              title: const Text('Upload File'),
+              subtitle: const Text('Select PDF, DOC, or DOCX from device'),
+              onTap: () async {
+                Navigator.of(context).pop();
+                await _pickCVFile();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.link),
+              title: const Text('Use URL'),
+              subtitle: const Text('Enter a link to your CV'),
+              onTap: () async {
+                Navigator.of(context).pop();
+                await _enterCVUrl();
+              },
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _pickCVFile() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'doc', 'docx'],
+        allowMultiple: false,
+      );
+
+      if (result != null && result.files.single.path != null) {
+        setState(() {
+          _cvFile = File(result.files.single.path!);
+          _cvFileName = result.files.single.name;
+          _cvUrl = null;
+          _useUrl = false;
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to pick file')),
+      );
+    }
+  }
+
+  Future<void> _enterCVUrl() async {
+    final urlController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Enter CV URL'),
         content: TextField(
+          controller: urlController,
           decoration: const InputDecoration(
-            hintText: 'Enter CV file path or URL',
+            hintText: 'https://example.com/my-cv.pdf',
             border: OutlineInputBorder(),
           ),
-          onChanged: (value) {
-            setState(() {
-              _cvFileName = value;
-            });
-          },
+          keyboardType: TextInputType.url,
         ),
         actions: [
           TextButton(
@@ -89,6 +149,15 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
           ),
           TextButton(
             onPressed: () {
+              final url = urlController.text.trim();
+              if (url.isNotEmpty) {
+                setState(() {
+                  _cvUrl = url;
+                  _cvFileName = url;
+                  _cvFile = null;
+                  _useUrl = true;
+                });
+              }
               Navigator.of(context).pop();
             },
             child: const Text('OK'),
@@ -107,9 +176,9 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              const Color(0xFFB4E4FF),
-              const Color(0xFF95D5FF),
-              const Color(0xFF7EC8FF).withOpacity(0.9),
+              const Color(0xFF1E40AF),
+              const Color(0xFF1D4ED8),
+              const Color(0xFF1E3A8A).withOpacity(0.9),
             ],
           ),
         ),
@@ -171,8 +240,8 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                         child: OutlinedButton(
                           onPressed: () => setState(() => _currentStep--),
                           style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Color(0xFF7EC8FF)),
-                            foregroundColor: const Color(0xFF7EC8FF),
+                            side: const BorderSide(color: Color(0xFF1E3A8A)),
+                            foregroundColor: const Color(0xFF1E3A8A),
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(28),
@@ -191,7 +260,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                       child: ElevatedButton(
                         onPressed: _isLoading ? null : _handleNext,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF7EC8FF),
+                          backgroundColor: const Color(0xFF1E3A8A),
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
@@ -271,7 +340,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
               width: 120,
               height: 120,
               decoration: BoxDecoration(
-                color: const Color(0xFF7EC8FF).withOpacity(0.1),
+                color: const Color(0xFF1E3A8A).withOpacity(0.1),
                 shape: BoxShape.circle,
                 image: _profileImage != null
                     ? DecorationImage(
@@ -284,7 +353,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                   ? const Icon(
                       Icons.add_a_photo_rounded,
                       size: 40,
-                      color: Color(0xFF7EC8FF),
+                      color: Color(0xFF1E3A8A),
                     )
                   : null,
             ),
@@ -295,7 +364,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: Color(0xFF7EC8FF),
+              color: Color(0xFF1E3A8A),
             ),
           ),
           const SizedBox(height: 32),
@@ -425,10 +494,10 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
             child: Container(
               padding: const EdgeInsets.all(32),
               decoration: BoxDecoration(
-                color: const Color(0xFF7EC8FF).withOpacity(0.1),
+                color: const Color(0xFF1E3A8A).withOpacity(0.1),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: const Color(0xFF7EC8FF).withOpacity(0.3),
+                  color: const Color(0xFF1E3A8A).withOpacity(0.3),
                   width: 2,
                   style: BorderStyle.solid,
                 ),
@@ -436,28 +505,36 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
               child: Column(
                 children: [
                   Icon(
-                    _cvFile != null
+                    (_cvFile != null || _cvUrl != null)
                         ? Icons.check_circle_rounded
                         : Icons.upload_file_rounded,
                     size: 64,
-                    color: const Color(0xFF7EC8FF),
+                    color: const Color(0xFF1E3A8A),
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    _cvFile != null ? _cvFileName! : 'Tap to upload CV',
+                    (_cvFile != null || _cvUrl != null)
+                        ? (_cvFileName ?? 'CV Selected')
+                        : 'Tap to select CV',
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF7EC8FF),
+                      color: Color(0xFF1E3A8A),
                     ),
+                    textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'PDF, DOC, or DOCX',
+                    _cvFile != null
+                        ? 'File selected'
+                        : _cvUrl != null
+                            ? 'URL provided'
+                            : 'PDF, DOC, DOCX or URL',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[600],
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
@@ -508,7 +585,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
-        prefixIcon: Icon(icon, color: const Color(0xFF7EC8FF)),
+        prefixIcon: Icon(icon, color: const Color(0xFF1E3A8A)),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(color: Colors.grey[300]!),
@@ -519,7 +596,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0xFF7EC8FF), width: 2),
+          borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
@@ -542,8 +619,8 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
       }
     } else {
       // Final step - submit profile
-      if (_cvFile == null) {
-        setState(() => _error = 'Please upload your CV');
+      if (_cvFile == null && _cvUrl == null) {
+        setState(() => _error = 'Please upload your CV or provide a URL');
         return;
       }
 
@@ -569,16 +646,20 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
         'experience': _experienceController.text.trim(),
         'education': _educationController.text.trim(),
         'skills': _skillsController.text.trim(),
+        'years_experience': _yearsExperienceController.text.trim(),
+        'education_list': _educationList,
+        'experience_list': _experienceList,
         if (_profileImage != null)
           'profile_image': await MultipartFile.fromFile(_profileImage!.path),
         if (_cvFile != null) 'cv': await MultipartFile.fromFile(_cvFile!.path),
+        if (_cvUrl != null && _cvUrl!.isNotEmpty) 'cv_url': _cvUrl,
       });
 
       await dio.post('/api/auth/profile/setup/', data: formData);
 
       if (mounted) {
         // Navigate to dashboard
-        Navigator.of(context).pushReplacementNamed('/dashboard/employee');
+        context.go('/dashboard/employee');
       }
     } on DioException catch (e) {
       setState(() {

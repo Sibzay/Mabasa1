@@ -1,0 +1,14 @@
+﻿graph TD
+    A[Event Occurs] --> B{Event Type}
+    B -->|Application Received| C[Create Notification Record]
+    B -->|Interview Scheduled| D[Create Notification Record]
+    B -->|Status Update| E[Create Notification Record]
+
+    C --> F[API Call: POST api/notifications]
+    D --> F
+    E --> F
+
+    F --> G[Store in Database]
+    G --> H[Push Notification to Device]
+    H --> I[User Views in App]
+    I --> J[Mark as Read: PATCH api/notifications/id/read]

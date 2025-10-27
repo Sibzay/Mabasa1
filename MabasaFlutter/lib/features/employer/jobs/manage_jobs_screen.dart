@@ -80,7 +80,7 @@ class _ManageJobsScreenState extends ConsumerState<ManageJobsScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: _openNewJobSheet,
-        backgroundColor: const Color(0xFF7EC8FF),
+        backgroundColor: const Color(0xFF1E3A8A),
         child: const Icon(Icons.add, color: Colors.white),
       ),
       body: Column(
@@ -120,9 +120,9 @@ class _ManageJobsScreenState extends ConsumerState<ManageJobsScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                color: selected ? const Color(0xFF7EC8FF) : Colors.white,
+                color: selected ? const Color(0xFF1E3A8A) : Colors.white,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xFF7EC8FF)),
+                border: Border.all(color: const Color(0xFF1E3A8A)),
               ),
               child: Text(
                 cat,
@@ -158,7 +158,7 @@ class _ManageJobsScreenState extends ConsumerState<ManageJobsScreen> {
         subtitle: Text(job['location'] ?? 'Location'),
         trailing: Row(mainAxisSize: MainAxisSize.min, children: [
           IconButton(
-            icon: const Icon(Icons.edit_rounded, color: Color(0xFF7EC8FF)),
+            icon: const Icon(Icons.edit_rounded, color: Color(0xFF1E3A8A)),
             onPressed: () => _openEditJobSheet(job),
           ),
           IconButton(
@@ -484,7 +484,7 @@ class _ManageJobsScreenState extends ConsumerState<ManageJobsScreen> {
                                 }
                               },
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF7EC8FF),
+                            backgroundColor: const Color(0xFF1E3A8A),
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 16)),
                         child: isLoading

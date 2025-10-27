@@ -1,0 +1,10 @@
+graph TD
+    A[Employer Dashboard] --> B[Create Job Form]
+    B --> C[Fill Job Details]
+    C --> D[API Call: POST /api/employer/jobs/]
+    D --> E{API Response}
+    E -->|Success| F[Job Created in Database]
+    E -->|Error| G[Show Validation Errors]
+
+    F --> H[Job Listed for Employees]
+    H --> I[Employees Can Browse/Swipe]

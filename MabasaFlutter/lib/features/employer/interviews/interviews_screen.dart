@@ -51,7 +51,7 @@ class _InterviewsScreenState extends ConsumerState<InterviewsScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
               Icon(Icons.event_busy_rounded,
-                  size: 72, color: Color(0xFF7EC8FF)),
+                  size: 72, color: Color(0xFF1E3A8A)),
               SizedBox(height: 12),
               Text('No upcoming interviews')
             ]),
@@ -80,7 +80,7 @@ class _InterviewsScreenState extends ConsumerState<InterviewsScreen> {
                 offset: const Offset(0, 6)),
           ]),
       child: ListTile(
-        leading: const Icon(Icons.event_rounded, color: Color(0xFF7EC8FF)),
+        leading: const Icon(Icons.event_rounded, color: Color(0xFF1E3A8A)),
         title: Text(itv['candidate_name'] ?? 'Candidate',
             style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text((itv['datetime'] ?? '').toString()),

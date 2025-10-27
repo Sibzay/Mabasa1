@@ -1,0 +1,19 @@
+# 1. User Authentication Flow
+
+```mermaid
+graph TD
+    A[User Opens App] --> B{Token Exists?}
+    B -->|Yes| C[Validate Token]
+    B -->|No| D[Login/Register Screen]
+
+    C -->|Valid| E[Authenticated State]
+    C -->|Invalid| D
+
+    D --> F[Enter Credentials]
+    F --> G[API Call: /api/auth/token/ or /api/auth/register/]
+    G --> H{API Response}
+    H -->|Success| I[Save Tokens to SharedPreferences]
+    H -->|Error| J[Show Error Message]
+
+    I --> E
+    E --> K[Access Protected Routes]

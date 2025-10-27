@@ -29,7 +29,7 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
     });
     try {
       final dio = await ApiClient().authed();
-      final res = await dio.get('/api/employer/employee/applications/');
+      final res = await dio.get('/api/employee/applications/');
       setState(() {
         _applications =
             List<Map<String, dynamic>>.from(res.data['applications'] ?? []);
@@ -46,8 +46,7 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
   Future<void> _deleteApplication(String applicationId) async {
     try {
       final dio = await ApiClient().authed();
-      await dio
-          .delete('/api/employer/employee/applications/' + applicationId + '/');
+      await dio.delete('/api/employee/applications/' + applicationId + '/');
       _loadApplications();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -66,8 +65,8 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
   Future<void> _reapply(String jobId) async {
     try {
       final dio = await ApiClient().authed();
-      await dio.post('/api/employer/employee/applications/reapply/',
-          data: {'job_id': jobId});
+      await dio
+          .post('/api/employee/applications/reapply/', data: {'job_id': jobId});
       _loadApplications();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -92,7 +91,7 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              const Color(0xFFB4E4FF).withOpacity(0.3),
+              const Color(0xFF1E40AF).withOpacity(0.3),
               Colors.white,
             ],
           ),
@@ -133,7 +132,7 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.error_outline, size: 64, color: Color(0xFF7EC8FF)),
+          const Icon(Icons.error_outline, size: 64, color: Color(0xFF1E3A8A)),
           const SizedBox(height: 16),
           Text(_error!,
               style: const TextStyle(fontSize: 16, color: Colors.grey)),
@@ -141,7 +140,7 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
           ElevatedButton(
             onPressed: _loadApplications,
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF7EC8FF),
+              backgroundColor: const Color(0xFF1E3A8A),
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               shape: RoundedRectangleBorder(
@@ -160,7 +159,7 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.description_outlined,
-              size: 80, color: Color(0xFF7EC8FF)),
+              size: 80, color: Color(0xFF1E3A8A)),
           const SizedBox(height: 24),
           const Text(
             'No Applications Yet',
@@ -244,11 +243,11 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF7EC8FF).withOpacity(0.1),
+                        color: const Color(0xFF1E3A8A).withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Icon(Icons.business_rounded,
-                          color: Color(0xFF7EC8FF)),
+                          color: Color(0xFF1E3A8A)),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
@@ -373,7 +372,7 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
                         icon: const Icon(Icons.refresh_rounded, size: 18),
                         label: const Text('Reapply'),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF7EC8FF),
+                          backgroundColor: const Color(0xFF1E3A8A),
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12)),

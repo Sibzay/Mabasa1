@@ -39,14 +39,18 @@ def job_detail(request, job_id: int):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def candidates_recommended(request):
+    print(f"Candidates recommended called by user: {request.user}")
     qs = CandidateProfile.objects.select_related('user')
     category = request.query_params.get('category')
+    print(f"Category filter: {category}")
     if category and category != 'All':
         qs = qs.filter(title__icontains=category)
     data = CandidateProfileSerializer(qs[:20], many=True).data
+    print(f"QuerySet count: {qs.count()}, serialized data count: {len(data)}")
     # Attach ids for swipe actions
     for i, c in enumerate(data):
         c['id'] = qs[i].user.id
+    print(f"Final candidates data: {data}")
     return Response({ 'candidates': data })
 
 

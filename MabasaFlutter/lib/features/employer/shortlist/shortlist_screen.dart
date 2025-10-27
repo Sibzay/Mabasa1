@@ -59,7 +59,7 @@ class _ShortlistScreenState extends ConsumerState<ShortlistScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
               Icon(Icons.bookmark_border_rounded,
-                  size: 72, color: Color(0xFF7EC8FF)),
+                  size: 72, color: Color(0xFF1E3A8A)),
               SizedBox(height: 12),
               Text('No shortlisted candidates')
             ]),
@@ -98,7 +98,7 @@ class _ShortlistScreenState extends ConsumerState<ShortlistScreen> {
                 children: [
                   CircleAvatar(
                     radius: 30,
-                    backgroundColor: const Color(0xFF7EC8FF),
+                    backgroundColor: const Color(0xFF1E3A8A),
                     child: Text(
                       (c['name'] ?? '?')[0].toUpperCase(),
                       style: const TextStyle(
@@ -187,16 +187,16 @@ class _ShortlistScreenState extends ConsumerState<ShortlistScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF7EC8FF).withOpacity(0.1),
+                        color: const Color(0xFF1E3A8A).withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                            color: const Color(0xFF7EC8FF).withOpacity(0.3)),
+                            color: const Color(0xFF1E3A8A).withOpacity(0.3)),
                       ),
                       child: Text(
                         skill,
                         style: const TextStyle(
                           fontSize: 11,
-                          color: Color(0xFF7EC8FF),
+                          color: Color(0xFF1E3A8A),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -214,8 +214,8 @@ class _ShortlistScreenState extends ConsumerState<ShortlistScreen> {
                       icon: const Icon(Icons.description, size: 18),
                       label: const Text('View Resume'),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: const Color(0xFF7EC8FF),
-                        side: const BorderSide(color: Color(0xFF7EC8FF)),
+                        foregroundColor: const Color(0xFF1E3A8A),
+                        side: const BorderSide(color: Color(0xFF1E3A8A)),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -285,7 +285,7 @@ class _ShortlistScreenState extends ConsumerState<ShortlistScreen> {
                       _getSkillsList(candidate['skills']).map<Widget>((skill) {
                     return Chip(
                       label: Text(skill),
-                      backgroundColor: const Color(0xFF7EC8FF).withOpacity(0.1),
+                      backgroundColor: const Color(0xFF1E3A8A).withOpacity(0.1),
                     );
                   }).toList(),
                 ),
