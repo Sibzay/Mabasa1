@@ -40,14 +40,22 @@ class ApplicationSerializer(serializers.ModelSerializer):
 
 class InterviewSerializer(serializers.ModelSerializer):
     candidate_name = serializers.SerializerMethodField()
+    job_title = serializers.SerializerMethodField()
+    application_id = serializers.SerializerMethodField()
 
     class Meta:
         model = Interview
-        fields = ['id', 'scheduled_at', 'status', 'candidate_name']
+        fields = ['id', 'scheduled_at', 'status', 'candidate_name', 'job_title', 'application_id', 'notes', 'location', 'created_at', 'updated_at']
 
     def get_candidate_name(self, obj):
         user = obj.application.candidate
         return user.get_full_name() or user.get_username()
+
+    def get_job_title(self, obj):
+        return obj.application.job.title
+
+    def get_application_id(self, obj):
+        return obj.application.id
 
 
 class NotificationSerializer(serializers.ModelSerializer):

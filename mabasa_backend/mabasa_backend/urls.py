@@ -17,6 +17,7 @@ urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('api/auth/', include('accounts.urls')),
     path('api/employer/', include('recruitment.urls')),
+    path('api/employee/', include('recruitment.employee_urls')),
     # shared notifications (used by employee NotificationsScreen)
     path('api/notifications/', recruitment_views.notifications_list),
     path('api/notifications/<int:notification_id>/read/', recruitment_views.notifications_mark_read),

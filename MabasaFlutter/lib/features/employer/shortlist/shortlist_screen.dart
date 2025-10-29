@@ -83,7 +83,7 @@ class _ShortlistScreenState extends ConsumerState<ShortlistScreen> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-                color: Colors.black.withOpacity(0.06),
+                color: Colors.black87.withOpacity(0.06),
                 blurRadius: 12,
                 offset: const Offset(0, 6)),
           ]),
@@ -126,7 +126,7 @@ class _ShortlistScreenState extends ConsumerState<ShortlistScreen> {
                           c['title'] ?? 'No title provided',
                           style: const TextStyle(
                             fontSize: 14,
-                            color: Colors.black54,
+                            color: Colors.black87,
                           ),
                         ),
                         if (c['location'] != null) ...[
@@ -135,7 +135,7 @@ class _ShortlistScreenState extends ConsumerState<ShortlistScreen> {
                             c['location'],
                             style: const TextStyle(
                               fontSize: 12,
-                              color: Colors.black54,
+                              color: Colors.black87,
                             ),
                           ),
                         ],
@@ -330,22 +330,47 @@ class _ShortlistScreenState extends ConsumerState<ShortlistScreen> {
   }
 
   void _scheduleInterview(Map<String, dynamic> candidate) {
+    final TextEditingController dateTimeController = TextEditingController();
+    final TextEditingController notesController = TextEditingController();
+    final TextEditingController locationController = TextEditingController();
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Schedule Interview'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Schedule interview with ${candidate['name']}?'),
-            const SizedBox(height: 16),
-            const TextField(
-              decoration: InputDecoration(
-                labelText: 'Interview Date & Time',
-                hintText: 'e.g., 2024-01-15 14:30',
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Schedule interview with ${candidate['name']}'),
+              const SizedBox(height: 16),
+              TextField(
+                controller: dateTimeController,
+                decoration: const InputDecoration(
+                  labelText: 'Interview Date & Time',
+                  hintText: 'YYYY-MM-DD HH:MM (e.g., 2024-01-15 14:30)',
+                ),
+                keyboardType: TextInputType.datetime,
               ),
-            ),
-          ],
+              const SizedBox(height: 12),
+              TextField(
+                controller: locationController,
+                decoration: const InputDecoration(
+                  labelText: 'Location (optional)',
+                  hintText: 'e.g., Zoom, Office, etc.',
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: notesController,
+                decoration: const InputDecoration(
+                  labelText: 'Notes (optional)',
+                  hintText: 'Additional notes for the interview',
+                ),
+                maxLines: 3,
+              ),
+            ],
+          ),
         ),
         actions: [
           TextButton(
@@ -354,10 +379,23 @@ class _ShortlistScreenState extends ConsumerState<ShortlistScreen> {
           ),
           ElevatedButton(
             onPressed: () async {
+              if (dateTimeController.text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Please enter date and time')),
+                );
+                return;
+              }
+
               try {
                 final dio = await ApiClient().authed();
-                await dio.post('/api/employer/interviews/schedule/',
-                    data: {'candidate_id': candidate['id']});
+                final response =
+                    await dio.post('/api/employer/interviews/schedule/', data: {
+                  'candidate_id': candidate['id'],
+                  'scheduled_at': dateTimeController.text,
+                  'notes': notesController.text,
+                  'location': locationController.text,
+                });
+
                 if (mounted) {
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(

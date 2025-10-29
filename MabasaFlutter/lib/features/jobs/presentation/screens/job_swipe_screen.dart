@@ -402,7 +402,7 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
           const SizedBox(height: 12),
           Text(
             'Check back later for new opportunities',
-            style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+            style: TextStyle(fontSize: 16, color: Colors.black87),
           ),
           const SizedBox(height: 32),
           ElevatedButton.icon(
@@ -472,7 +472,7 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
                 borderRadius: BorderRadius.circular(30),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black87.withOpacity(0.1),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
@@ -638,7 +638,7 @@ class _JobSwipeScreenState extends ConsumerState<JobSwipeScreen> {
                     border: Border.all(color: Colors.red.shade300, width: 3),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black87.withOpacity(0.1),
                         blurRadius: 15,
                         offset: const Offset(0, 5),
                       ),

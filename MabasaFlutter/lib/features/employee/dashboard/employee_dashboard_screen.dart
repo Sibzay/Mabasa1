@@ -152,7 +152,7 @@ class _EmployeeDashboardScreenState
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black87.withOpacity(0.05),
               blurRadius: 10,
               offset: const Offset(0, -5),
             ),
@@ -212,7 +212,7 @@ class _EmployeeDashboardScreenState
           children: [
             Icon(
               isSelected ? selectedIcon : icon,
-              color: isSelected ? const Color(0xFF1E3A8A) : Colors.grey[600],
+              color: isSelected ? const Color(0xFF1E3A8A) : Colors.black87,
               size: 26,
             ),
             const SizedBox(height: 4),
@@ -221,7 +221,7 @@ class _EmployeeDashboardScreenState
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                color: isSelected ? const Color(0xFF1E3A8A) : Colors.grey[600],
+                color: isSelected ? const Color(0xFF1E3A8A) : Colors.black87,
               ),
             ),
           ],

@@ -94,8 +94,52 @@ def interviews(request):
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def interviews_schedule(request):
-    # Minimal stub – requires an application; in UI we schedule by candidate id only
-    return Response({ 'message': 'scheduled' })
+    candidate_id = request.data.get('candidate_id')
+    scheduled_at = request.data.get('scheduled_at')
+    notes = request.data.get('notes', '')
+    location = request.data.get('location', '')
+
+    if not candidate_id or not scheduled_at:
+        return Response({'error': 'candidate_id and scheduled_at are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Find the application for this candidate and employer
+    app = Application.objects.filter(
+        candidate_id=candidate_id,
+        job__employer=request.user,
+        status='shortlisted'
+    ).first()
+
+    if not app:
+        return Response({'error': 'No shortlisted application found for this candidate'}, status=status.HTTP_404_NOT_FOUND)
+
+    # Create the interview
+    interview = Interview.objects.create(
+        application=app,
+        scheduled_at=scheduled_at,
+        notes=notes,
+        location=location
+    )
+
+    # Update application status to interview
+    app.status = 'interview'
+    app.save(update_fields=['status'])
+
+    return Response(InterviewSerializer(interview).data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['PUT', 'DELETE'])
+@permission_classes([permissions.IsAuthenticated])
+def interview_detail(request, interview_id: int):
+    interview = get_object_or_404(Interview, pk=interview_id, application__job__employer=request.user)
+
+    if request.method == 'PUT':
+        serializer = InterviewSerializer(interview, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    else:
+        interview.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET'])

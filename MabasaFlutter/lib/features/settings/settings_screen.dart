@@ -141,7 +141,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           subtitle,
           style: const TextStyle(
             fontSize: 14,
-            color: Colors.black54,
+            color: Colors.black87,
           ),
         ),
         trailing: const Icon(Icons.chevron_right, color: Colors.grey),

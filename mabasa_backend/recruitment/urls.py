@@ -12,17 +12,12 @@ urlpatterns = [
     path('shortlist/<int:candidate_id>/', views.shortlist_remove),
     path('interviews/', views.interviews),
     path('interviews/schedule/', views.interviews_schedule),
+    path('interviews/<int:interview_id>/', views.interview_detail),
     # notifications
     path('notifications/', views.notifications_list),
     path('notifications/<int:notification_id>/read/', views.notifications_mark_read),
     path('notifications/mark-all-read/', views.notifications_mark_all_read),
     path('notifications/<int:notification_id>/', views.notifications_delete),
-    # employee endpoints
-    path('employee/jobs/recommended/', views.employee_jobs_recommended),
-    path('employee/jobs/swipe/', views.employee_jobs_swipe),
-    path('employee/applications/', views.employee_applications_list),
-    path('employee/applications/<int:application_id>/', views.employee_application_delete),
-    path('employee/applications/reapply/', views.employee_application_reapply),
 ]
 
 

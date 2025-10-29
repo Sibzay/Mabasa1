@@ -179,7 +179,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
           const SizedBox(height: 12),
           Text(
             'You\'re all caught up!',
-            style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+            style: TextStyle(fontSize: 16, color: Colors.black87),
           ),
         ],
       ),
@@ -236,7 +236,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black87.withOpacity(0.05),
               blurRadius: 10,
               offset: const Offset(0, 5),
             ),
@@ -311,25 +311,25 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                         Row(
                           children: [
                             Icon(Icons.schedule,
-                                size: 14, color: Colors.grey[500]),
+                                size: 14, color: Colors.black87),
                             const SizedBox(width: 4),
                             Text(
                               _formatDate(notification['created_at']),
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.grey[500],
+                                color: Colors.black87,
                               ),
                             ),
                             if (type == 'interview' || type == 'accepted') ...[
                               const SizedBox(width: 16),
                               Icon(Icons.event,
-                                  size: 14, color: Colors.grey[500]),
+                                  size: 14, color: Colors.black87),
                               const SizedBox(width: 4),
                               Text(
                                 'Interview Scheduled',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Colors.grey[500],
+                                  color: Colors.black87,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -466,7 +466,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                                 _formatDate(notification['created_at']),
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.grey[600],
+                                  color: Colors.black87,
                                 ),
                               ),
                             ],

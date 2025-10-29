@@ -251,7 +251,7 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
           const SizedBox(height: 8),
           const Text(
             'Please refresh to see newer candidates',
-            style: TextStyle(fontSize: 14, color: Colors.black54),
+            style: TextStyle(fontSize: 14, color: Colors.black87),
           ),
           const SizedBox(height: 24),
           ElevatedButton.icon(
@@ -309,7 +309,7 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.black.withOpacity(0.06),
+                        color: Colors.black87.withOpacity(0.06),
                         blurRadius: 16,
                         offset: const Offset(0, 8)),
                   ]),
@@ -433,7 +433,7 @@ class _CandidateSwipeScreenState extends ConsumerState<CandidateSwipeScreen> {
         border: outlined ? Border.all(color: color, width: 3) : null,
         boxShadow: [
           BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black87.withOpacity(0.1),
               blurRadius: 12,
               offset: const Offset(0, 6))
         ],

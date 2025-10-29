@@ -171,7 +171,7 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
           const SizedBox(height: 12),
           Text(
             'Start swiping to apply for jobs',
-            style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+            style: TextStyle(fontSize: 16, color: Colors.black87),
           ),
         ],
       ),
@@ -219,7 +219,7 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black87.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -265,14 +265,14 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
                           const SizedBox(height: 4),
                           Text(
                             company,
-                            style: TextStyle(
-                                fontSize: 14, color: Colors.grey[600]),
+                            style:
+                                TextStyle(fontSize: 14, color: Colors.black87),
                           ),
                           const SizedBox(height: 2),
                           Text(
                             location,
-                            style: TextStyle(
-                                fontSize: 12, color: Colors.grey[500]),
+                            style:
+                                TextStyle(fontSize: 12, color: Colors.black87),
                           ),
                         ],
                       ),
@@ -328,19 +328,19 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Icon(Icons.schedule, size: 16, color: Colors.grey[500]),
+                    Icon(Icons.schedule, size: 16, color: Colors.black87),
                     const SizedBox(width: 4),
                     Text(
                       'Applied ${_formatDate(appliedDate)}',
-                      style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+                      style: TextStyle(fontSize: 13, color: Colors.black87),
                     ),
                     if (closingDate != null) ...[
                       const SizedBox(width: 16),
-                      Icon(Icons.event, size: 16, color: Colors.grey[500]),
+                      Icon(Icons.event, size: 16, color: Colors.black87),
                       const SizedBox(width: 4),
                       Text(
                         'Closes ${_formatDate(closingDate)}',
-                        style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+                        style: TextStyle(fontSize: 13, color: Colors.black87),
                       ),
                     ],
                   ],
@@ -542,7 +542,7 @@ class _ApplicationsScreenState extends ConsumerState<ApplicationsScreen> {
               label,
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.grey[600],
+                color: Colors.black87,
                 fontWeight: FontWeight.w500,
               ),
             ),

@@ -483,7 +483,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey[600],
+              color: Colors.black87,
             ),
           ),
           const SizedBox(height: 32),
@@ -532,7 +532,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                             : 'PDF, DOC, DOCX or URL',
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.grey[600],
+                      color: Colors.black87,
                     ),
                     textAlign: TextAlign.center,
                   ),

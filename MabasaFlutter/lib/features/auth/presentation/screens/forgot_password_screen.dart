@@ -99,7 +99,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: Colors.black87.withOpacity(0.1),
                             blurRadius: 20,
                             offset: const Offset(0, 10),
                           ),
@@ -125,7 +125,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                         letterSpacing: 0.5,
                         shadows: [
                           Shadow(
-                            color: Colors.black12,
+                            color: Colors.black87,
                             offset: Offset(0, 2),
                             blurRadius: 4,
                           ),
@@ -156,7 +156,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                           borderRadius: BorderRadius.circular(30),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Colors.black87.withOpacity(0.1),
                               blurRadius: 30,
                               offset: const Offset(0, 15),
                             ),
@@ -257,7 +257,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                           borderRadius: BorderRadius.circular(30),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Colors.black87.withOpacity(0.1),
                               blurRadius: 30,
                               offset: const Offset(0, 15),
                             ),
@@ -292,7 +292,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.grey[600],
+                                color: Colors.black87,
                                 height: 1.5,
                               ),
                             ),

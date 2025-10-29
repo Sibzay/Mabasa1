@@ -82,7 +82,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black87.withOpacity(0.1),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
@@ -105,7 +105,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                 letterSpacing: 1.5,
                 shadows: [
                   Shadow(
-                    color: Colors.black12,
+                    color: Colors.black87,
                     offset: Offset(0, 2),
                     blurRadius: 4,
                   ),
@@ -202,7 +202,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black87.withOpacity(0.1),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
@@ -236,7 +236,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                     subtitle,
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.grey[600],
+                      color: Colors.black87,
                     ),
                   ),
                 ],
@@ -328,7 +328,7 @@ class _JobSeekerRegistrationFormState
                 borderRadius: BorderRadius.circular(28),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black87.withOpacity(0.1),
                     blurRadius: 30,
                     offset: const Offset(0, 15),
                   ),
@@ -654,7 +654,7 @@ class _EmployerRegistrationFormState
                 borderRadius: BorderRadius.circular(28),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black87.withOpacity(0.1),
                     blurRadius: 30,
                     offset: const Offset(0, 15),
                   ),

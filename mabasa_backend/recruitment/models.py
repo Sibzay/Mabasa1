@@ -78,9 +78,17 @@ class Application(models.Model):
 
 
 class Interview(models.Model):
+    STATUS_CHOICES = [
+        ('scheduled', 'Scheduled'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    ]
     application = models.ForeignKey(Application, on_delete=models.CASCADE, related_name='interviews')
     scheduled_at = models.DateTimeField()
-    status = models.CharField(max_length=20, default='scheduled')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='scheduled')
+    notes = models.TextField(blank=True)
+    location = models.CharField(max_length=200, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Notification(models.Model):

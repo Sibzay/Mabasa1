@@ -1,0 +1,84 @@
+erDiagram
+    User ||--o{ Job : "posts"
+    User ||--|| CandidateProfile : "has"
+    User ||--o{ Application : "submits"
+    User ||--o{ Notification : "receives"
+    Job ||--o{ Application : "receives"
+    Application ||--|| Interview : "schedules"
+
+    User {
+        int id PK
+        string username
+        string email
+        string first_name
+        string last_name
+        string password
+        bool is_active
+        bool is_staff
+        bool is_superuser
+        datetime date_joined
+        datetime last_login
+    }
+
+    CandidateProfile {
+        int user PK,FK
+        string title
+        string location
+        text summary
+        json skills
+        string resume_url
+        json education
+        json experience
+        int years_experience
+    }
+
+    Job {
+        int id PK
+        int employer FK
+        string title
+        string location
+        text description
+        string category
+        json requirements
+        string salary_range
+        bool is_open
+        date closing_date
+        text certifications
+        string education_level
+        decimal salary_amount
+        string salary_currency
+        text duties_responsibilities
+        string expected_hours
+        string work_type
+        string work_days
+        datetime created_at
+    }
+
+    Application {
+        int id PK
+        int job FK
+        int candidate FK
+        string status
+        datetime created_at
+        text feedback_notes
+    }
+
+    Interview {
+        int id PK
+        int application FK
+        datetime scheduled_at
+        string status
+        text notes
+        string location
+        datetime updated_at
+    }
+
+    Notification {
+        int id PK
+        int user FK
+        text message
+        string type
+        string action_url
+        bool read
+        datetime created_at
+    }
